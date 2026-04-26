@@ -1,0 +1,510 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Умуд &amp; Шура | Наша свадьба 31 мая 2026</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Montserrat:wght@300;400&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #f5f0ea; font-family: 'Montserrat', sans-serif; color: #3a3028; overflow-x: hidden; }
+  .invitation { max-width: 480px; margin: 0 auto; background: #fdfaf6; min-height: 100vh; }
+
+  .lock-screen { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; background: linear-gradient(160deg, #2c1f14 0%, #4a3222 50%, #2c1f14 100%); position: relative; padding: 40px 20px; cursor: pointer; transition: opacity 0.8s ease; }
+  .lock-screen.hidden { opacity: 0; pointer-events: none; }
+  .lock-overlay { position: absolute; inset: 0; background-image: radial-gradient(ellipse at 20% 80%, rgba(180,130,80,0.15) 0%, transparent 50%), radial-gradient(ellipse at 80% 20%, rgba(180,130,80,0.1) 0%, transparent 50%); }
+  .floral-top { font-size: 60px; margin-bottom: 20px; opacity: 0.85; animation: float 4s ease-in-out infinite; filter: drop-shadow(0 4px 12px rgba(180,130,80,0.4)); }
+  @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+  .lock-title { font-family: 'Cormorant Garamond', serif; font-size: 14px; letter-spacing: 5px; text-transform: uppercase; color: #c9a87c; margin-bottom: 16px; }
+  .lock-unlock { font-family: 'Cormorant Garamond', serif; font-size: 36px; font-style: italic; color: #f5ede0; text-align: center; line-height: 1.3; margin-bottom: 8px; }
+  .lock-sub { font-size: 11px; letter-spacing: 3px; color: #c9a87c; opacity: 0.7; animation: pulse 2s ease-in-out infinite; }
+  @keyframes pulse { 0%,100%{opacity:0.5} 50%{opacity:1} }
+  .arrow-down { margin-top: 40px; color: #c9a87c; font-size: 24px; animation: bounce 1.5s ease-in-out infinite; }
+  @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(8px)} }
+
+
+  #lockScreen {
+    background-image: url('images/картинка 1.jpg');   /* ← твоя картинка */
+    background-size: cover;           /* картинка полностью заполняет экран */
+    background-position: center;      /* центрируем */
+    background-repeat: no-repeat;
+    background-attachment: fixed;     /* чтобы не сдвигалась */
+    
+    /* Если картинка слишком яркая и текст плохо читается — добавь затемнение */
+    background: 
+        linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)), 
+        url('images/картинка 1.jpg');
+    background-size: cover;
+    background-position: center;
+}
+
+/* Убираем старый коричневый цвет (на всякий случай) */
+#lockScreen {
+    background-color: transparent !important;
+}
+
+  .main-content { display: none; opacity: 0; transition: opacity 1s ease 0.3s; }
+  .main-content.visible { display: block; opacity: 1; }
+
+  .hero { background: linear-gradient(160deg, #2c1f14 0%, #4a3222 60%, #3a2818 100%); padding: 60px 30px 50px; text-align: center; position: relative; overflow: hidden; }
+  .hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 100%, rgba(201,168,124,0.2) 0%, transparent 60%); }
+  .hero-floral { font-size: 48px; margin-bottom: 24px; display: block; filter: drop-shadow(0 4px 12px rgba(180,130,80,0.5)); position: relative; }
+  .hero-announce { font-size: 10px; letter-spacing: 4px; color: #c9a87c; text-transform: uppercase; margin-bottom: 20px; position: relative; }
+  .names { font-family: 'Playfair Display', serif; font-size: 56px; font-style: italic; color: #f5ede0; line-height: 1.1; margin-bottom: 6px; position: relative; }
+  .names-amp { color: #c9a87c; font-size: 42px; }
+  .hero-date { font-family: 'Cormorant Garamond', serif; font-size: 18px; color: #c9a87c; letter-spacing: 3px; margin-top: 20px; border-top: 1px solid rgba(201,168,124,0.3); border-bottom: 1px solid rgba(201,168,124,0.3); padding: 10px 30px; display: inline-block; position: relative; }
+
+.hero{background: 
+        linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.55)), 
+        url('images/картинка 2.jpg') center center / cover no-repeat !important;
+}
+  .section { padding: 40px 30px; border-bottom: 1px solid #ede5d8; opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .section.revealed { opacity: 1; transform: translateY(0); }
+  .section-label { font-size: 9px; letter-spacing: 4px; text-transform: uppercase; color: #c9a87c; margin-bottom: 16px; display: flex; align-items: center; gap: 12px; }
+  .section-label::after { content: ''; flex: 1; height: 1px; background: linear-gradient(to right, #c9a87c40, transparent); }
+
+  .intro-heading { font-family: 'Cormorant Garamond', serif; font-size: 15px; letter-spacing: 3px; text-transform: uppercase; color: #c9a87c; margin-bottom: 20px; }
+  .intro-body { font-family: 'Cormorant Garamond', serif; font-size: 21px; line-height: 1.75; color: #3a3028; font-style: italic; }
+  .intro-divider { display: flex; align-items: center; gap: 16px; margin: 24px 0; color: #c9a87c; font-size: 18px; }
+  .intro-divider::before, .intro-divider::after { content: ''; flex: 1; height: 1px; background: linear-gradient(to right, transparent, #c9a87c60, transparent); }
+
+  /* Calendar */
+  .calendar-wrap {
+    background: #fff;
+    border: 1px solid #ede5d8;
+    border-radius: 2px;
+    overflow: hidden;
+    box-shadow: 0 4px 24px rgba(58,40,24,0.08);
+  }
+  .cal-header {
+    background: linear-gradient(135deg, #2c1f14, #4a3222);
+    padding: 18px 20px 14px;
+    text-align: center;
+  }
+  .cal-header{background: 
+        linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.55)), 
+        url('images/картинка 4.jpg') center center / cover no-repeat !important;
+}
+  .cal-month {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-style: italic;
+    color: #f5ede0;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+  }
+  .cal-year {
+    font-size: 11px;
+    letter-spacing: 4px;
+    color: #c9a87c;
+    margin-top: 2px;
+  }
+  .cal-grid { padding: 16px 12px 20px; }
+  .cal-days-header {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    margin-bottom: 8px;
+  }
+  .cal-day-name {
+    text-align: center;
+    font-size: 9px;
+    letter-spacing: 1px;
+    color: #c9a87c;
+    text-transform: uppercase;
+    padding: 4px 0;
+  }
+  .cal-day-name.weekend { color: #b08060; }
+  .cal-cells {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 2px;
+  }
+  .cal-cell {
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    color: #3a3028;
+    border-radius: 50%;
+    position: relative;
+    cursor: default;
+  }
+  .cal-cell.empty { }
+  .cal-cell.weekend { color: #9a6858; }
+  .cal-cell.past { color: #c8bfb5; }
+  .cal-cell.today {
+    font-weight: 400;
+    color: #c9a87c;
+  }
+  .cal-cell.highlighted {
+    z-index: 1;
+  }
+  .cal-cell.highlighted .day-num {
+    position: relative;
+    z-index: 2;
+    color: #2c1f14;
+    font-weight: 400;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+  }
+  .circle-svg {
+    position: absolute;
+    inset: -4px;
+    width: calc(100% + 8px);
+    height: calc(100% + 8px);
+    pointer-events: none;
+    z-index: 1;
+  }
+  .heart-label {
+    position: absolute;
+    bottom: -18px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 10px;
+    color: #c9a87c;
+    white-space: nowrap;
+    letter-spacing: 1px;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+  }
+  .cal-cell.highlighted .bg-dot {
+    position: absolute;
+    inset: 2px;
+    background: #f5ede0;
+    border-radius: 50%;
+    z-index: 0;
+  }
+
+  .timeline { list-style: none; }
+  .timeline-item { display: grid; grid-template-columns: 64px 1px 1fr; gap: 0 20px; padding-bottom: 32px; }
+  .timeline-item:last-child { padding-bottom: 0; }
+  .timeline-time-col { text-align: right; padding-top: 4px; }
+  .timeline-time { font-family: 'Cormorant Garamond', serif; font-size: 22px; color: #c9a87c; font-style: italic; line-height: 1; }
+  .timeline-line { display: flex; flex-direction: column; align-items: center; }
+  .timeline-dot { width: 12px; height: 12px; border-radius: 50%; background: #fdfaf6; border: 2px solid #c9a87c; flex-shrink: 0; margin-top: 6px; }
+  .timeline-connector { flex: 1; width: 1px; background: linear-gradient(to bottom, #c9a87c80, #c9a87c20); margin-top: 4px; }
+  .timeline-item:last-child .timeline-connector { display: none; }
+  .timeline-content { padding-top: 2px; }
+  .timeline-icon { font-size: 20px; margin-bottom: 4px; }
+  .timeline-event { font-size: 13px; letter-spacing: 1px; color: #3a3028; text-transform: uppercase; }
+  .timeline-desc { font-family: 'Cormorant Garamond', serif; font-size: 16px; color: #7a6858; margin-top: 4px; line-height: 1.5; font-style: italic; }
+
+  .venue-name { font-family: 'Cormorant Garamond', serif; font-size: 28px; font-style: italic; color: #3a3028; margin-bottom: 6px; }
+  .venue-addr { font-size: 12px; color: #9a8878; letter-spacing: 1px; line-height: 1.6; text-transform: uppercase; }
+  .map-btn { display: inline-block; margin-top: 16px; padding: 10px 24px; border: 1px solid #c9a87c; color: #c9a87c; font-size: 10px; letter-spacing: 3px; text-transform: uppercase; text-decoration: none; transition: all 0.3s; }
+  .map-btn:hover { background: #c9a87c; color: #2c1f14; }
+
+  .note-text { font-size: 12px; color: #9a8878; line-height: 1.8; }
+  .note-text strong { color: #c9a87c; font-weight: 400; }
+
+  .gallery-section { padding: 40px 30px; border-bottom: 1px solid #ede5d8; opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; background: linear-gradient(135deg, #fdfaf6 0%, #f5ede0 100%); }
+  .gallery-section.revealed { opacity: 1; transform: translateY(0); }
+  .gallery-title { font-family: 'Cormorant Garamond', serif; font-size: 26px; font-style: italic; color: #3a3028; margin-bottom: 6px; }
+  .gallery-subtitle { font-size: 9px; letter-spacing: 4px; text-transform: uppercase; color: #c9a87c; margin-bottom: 20px; }
+  .gallery-body { font-family: 'Cormorant Garamond', serif; font-size: 18px; line-height: 1.75; color: #5a4a3a; font-style: italic; margin-bottom: 28px; }
+  .qr-wrapper { display: flex; align-items: center; gap: 24px; background: #fff; border: 1px solid #ede5d8; padding: 20px; }
+  .qr-box { flex-shrink: 0; width: 90px; height: 90px; position: relative; }
+  .qr-box svg { width: 100%; height: 100%; }
+  .qr-corner { position: absolute; width: 12px; height: 12px; border-color: #c9a87c; border-style: solid; }
+  .qr-corner.tl { top:-2px;left:-2px;border-width:2px 0 0 2px; }
+  .qr-corner.tr { top:-2px;right:-2px;border-width:2px 2px 0 0; }
+  .qr-corner.bl { bottom:-2px;left:-2px;border-width:0 0 2px 2px; }
+  .qr-corner.br { bottom:-2px;right:-2px;border-width:0 2px 2px 0; }
+  .qr-text { font-size: 12px; color: #7a6858; line-height: 1.7; }
+  .qr-text strong { color: #3a3028; font-weight: 400; display: block; margin-bottom: 4px; font-size: 13px; letter-spacing: 1px; }
+
+  .footer { background: #2c1f14; padding: 40px 30px; text-align: center; }
+  .footer-floral { font-size: 36px; margin-bottom: 16px; display: block; }
+  .footer-names { font-family: 'Playfair Display', serif; font-size: 28px; font-style: italic; color: #c9a87c; margin-bottom: 24px; }
+  .footer {background: 
+        linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.55)), 
+        url('images/картинка 4.jpg') center center / cover no-repeat !important;
+}
+ 
+  .contacts { display: flex; flex-direction: column; gap: 8px; }
+  .contact-item { display: flex; align-items: center; justify-content: center; gap: 10px; color: rgba(245,237,224,0.7); font-size: 12px; letter-spacing: 1px; text-decoration: none; }
+  .contact-role { color: #c9a87c; font-size: 10px; }
+</style>
+</head>
+<body>
+<div class="invitation">
+
+  <div class="lock-screen" id="lockScreen" onclick="unlock()">
+    <div class="lock-overlay"></div>
+    <div class="floral-top">💌</div>
+    <div class="lock-title">Вам письмо</div>
+    <div class="lock-unlock">Разблокируйте<br>приглашение</div>
+    <div class="lock-sub">нажмите, чтобы открыть</div>
+    <div class="arrow-down">↓</div>
+  </div>
+
+  <div class="main-content" id="mainContent">
+
+    <div class="hero">
+    
+      <div class="hero-announce">Мы приглашаем вас на нашу свадьбу</div>
+     <div class="names">
+  Умуд &amp; Шура
+</div>
+      <div class="hero-date">31 · 05 · 2026</div>
+    </div>
+
+    <!-- Intro -->
+    <div class="section" id="s1">
+      <div class="intro-heading">Дорогие гости!</div>
+      <p class="intro-body">В нашей жизни произойдёт очень важное событие — наша свадьба!</p>
+      <div class="intro-divider">✦</div>
+      <p class="intro-body">Мы верим и надеемся, что этот день станет красивым началом долгой и счастливой жизни.</p>
+    </div>
+
+    <!-- Calendar -->
+    <div class="section" id="s2">
+      <div class="section-label">Сохраните дату</div>
+      <div class="calendar-wrap">
+        <div class="cal-header">
+          <div class="cal-month">Май</div>
+          <div class="cal-year">2026</div>
+        </div>
+        <div class="cal-grid">
+          <div class="cal-days-header">
+            <div class="cal-day-name">Пн</div>
+            <div class="cal-day-name">Вт</div>
+            <div class="cal-day-name">Ср</div>
+            <div class="cal-day-name">Чт</div>
+            <div class="cal-day-name">Пт</div>
+            <div class="cal-day-name weekend">Сб</div>
+            <div class="cal-day-name weekend">Вс</div>
+          </div>
+          <div class="cal-cells" id="calCells"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Timeline -->
+    <div class="section" id="s3">
+      <div class="section-label">Программа вечера</div>
+      <ul class="timeline">
+        <li class="timeline-item">
+          <div class="timeline-time-col"><div class="timeline-time">17:00</div></div>
+          <div class="timeline-line"><div class="timeline-dot"></div><div class="timeline-connector"></div></div>
+          <div class="timeline-content">
+            <div class="timeline-icon">🥂</div>
+            <div class="timeline-event">Сбор гостей</div>
+            <div class="timeline-desc">Встречаемся, наслаждаемся фуршетом, настраиваемся на весёлую свадьбу</div>
+          </div>
+        </li>
+        <li class="timeline-item">
+          <div class="timeline-time-col"><div class="timeline-time">18:00</div></div>
+          <div class="timeline-line"><div class="timeline-dot"></div><div class="timeline-connector"></div></div>
+          <div class="timeline-content">
+            <div class="timeline-icon">🍽️</div>
+            <div class="timeline-event">Банкет</div>
+            <div class="timeline-desc">Время вкусной еды, музыки, приятных пожеланий и танцев</div>
+          </div>
+        </li>
+        <li class="timeline-item">
+          <div class="timeline-time-col"><div class="timeline-time">22:00</div></div>
+          <div class="timeline-line"><div class="timeline-dot"></div><div class="timeline-connector"></div></div>
+          <div class="timeline-content">
+            <div class="timeline-icon">🎂</div>
+            <div class="timeline-event">Торт</div>
+            <div class="timeline-desc">Время сладкого финала: разрезаем торт, угощаемся и продолжаем праздник</div>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Venue -->
+    <div class="section" id="s4">
+      <div class="section-label">Место проведения</div>
+      <div class="venue-name">Банкетный зал «Наполеон»</div>
+      <div class="venue-addr">ул. Гарибальди, 1А</div>
+      <a href="https://yandex.ru/maps/?text=ул.+Гарибальди+1А" target="_blank" class="map-btn">Открыть карту</a>
+    </div>
+
+
+    <!-- Gallery / QR -->
+    <div class="gallery-section" id="s6">
+      <div class="gallery-subtitle">Для гостей</div>
+      <div class="gallery-title">Свадьба глазами гостей</div>
+      <p class="gallery-body">
+        В день нашей свадьбы будем рады, если вы разделите его с нами не только в сердце, но и в кадре.<br><br>
+        Сканируйте QR-код на вашем столе, чтобы добавить фотографии и оставить пожелания в нашей общей галерее воспоминаний!
+      </p>
+      <div class="qr-wrapper">
+        <div class="qr-box">
+          <svg viewBox="0 0 90 90" xmlns="http://www.w3.org/2000/svg" fill="none">
+            <rect x="5" y="5" width="24" height="24" rx="2" fill="#3a2818"/>
+            <rect x="9" y="9" width="16" height="16" rx="1" fill="#fdfaf6"/>
+            <rect x="12" y="12" width="10" height="10" rx="1" fill="#3a2818"/>
+            <rect x="61" y="5" width="24" height="24" rx="2" fill="#3a2818"/>
+            <rect x="65" y="9" width="16" height="16" rx="1" fill="#fdfaf6"/>
+            <rect x="68" y="12" width="10" height="10" rx="1" fill="#3a2818"/>
+            <rect x="5" y="61" width="24" height="24" rx="2" fill="#3a2818"/>
+            <rect x="9" y="65" width="16" height="16" rx="1" fill="#fdfaf6"/>
+            <rect x="12" y="68" width="10" height="10" rx="1" fill="#3a2818"/>
+            <rect x="35" y="5" width="4" height="4" fill="#3a2818"/><rect x="42" y="5" width="4" height="4" fill="#3a2818"/>
+            <rect x="35" y="12" width="4" height="4" fill="#3a2818"/><rect x="49" y="5" width="4" height="4" fill="#3a2818"/>
+            <rect x="56" y="12" width="4" height="4" fill="#3a2818"/>
+            <rect x="35" y="35" width="4" height="4" fill="#c9a87c"/><rect x="42" y="35" width="4" height="4" fill="#3a2818"/>
+            <rect x="49" y="35" width="4" height="4" fill="#3a2818"/><rect x="56" y="35" width="4" height="4" fill="#c9a87c"/>
+            <rect x="35" y="42" width="4" height="4" fill="#3a2818"/><rect x="49" y="42" width="4" height="4" fill="#c9a87c"/>
+            <rect x="56" y="42" width="4" height="4" fill="#3a2818"/><rect x="35" y="49" width="4" height="4" fill="#c9a87c"/>
+            <rect x="42" y="49" width="4" height="4" fill="#3a2818"/><rect x="56" y="49" width="4" height="4" fill="#3a2818"/>
+            <rect x="35" y="56" width="4" height="4" fill="#3a2818"/><rect x="42" y="56" width="4" height="4" fill="#c9a87c"/>
+            <rect x="49" y="56" width="4" height="4" fill="#3a2818"/><rect x="56" y="56" width="4" height="4" fill="#c9a87c"/>
+            <rect x="61" y="35" width="4" height="4" fill="#3a2818"/><rect x="68" y="35" width="4" height="4" fill="#c9a87c"/>
+            <rect x="75" y="35" width="4" height="4" fill="#3a2818"/><rect x="61" y="42" width="4" height="4" fill="#c9a87c"/>
+            <rect x="75" y="42" width="4" height="4" fill="#c9a87c"/><rect x="68" y="49" width="4" height="4" fill="#3a2818"/>
+            <rect x="75" y="49" width="4" height="4" fill="#3a2818"/><rect x="61" y="56" width="4" height="4" fill="#3a2818"/>
+            <rect x="68" y="56" width="4" height="4" fill="#c9a87c"/>
+            <rect x="5" y="35" width="4" height="4" fill="#3a2818"/><rect x="12" y="35" width="4" height="4" fill="#c9a87c"/>
+            <rect x="19" y="35" width="4" height="4" fill="#3a2818"/><rect x="26" y="35" width="4" height="4" fill="#3a2818"/>
+            <rect x="5" y="42" width="4" height="4" fill="#c9a87c"/><rect x="19" y="42" width="4" height="4" fill="#3a2818"/>
+            <rect x="26" y="42" width="4" height="4" fill="#c9a87c"/><rect x="12" y="49" width="4" height="4" fill="#3a2818"/>
+            <rect x="26" y="49" width="4" height="4" fill="#3a2818"/><rect x="5" y="56" width="4" height="4" fill="#3a2818"/>
+            <rect x="19" y="56" width="4" height="4" fill="#c9a87c"/>
+            <text x="45" y="48" text-anchor="middle" font-size="10" fill="#c9a87c">♥</text>
+          </svg>
+          <div class="qr-corner tl"></div><div class="qr-corner tr"></div>
+          <div class="qr-corner bl"></div><div class="qr-corner br"></div>
+        </div>
+        <div class="qr-text">
+          <strong>Наша галерея воспоминаний</strong>
+          Сканируйте QR-код на вашем столе и добавляйте фото прямо с телефона
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+
+      <div class="footer-names">Умуд &amp; Шура</div>
+      <div class="contacts">
+        <a href="tel:+79269827852" class="contact-item"><span class="contact-role">Жених:</span> 8 (926) 982-78-52</a>
+        <a href="tel:+79689209344" class="contact-item"><span class="contact-role">Невеста:</span> 8 (968) 920-93-44</a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  // Build May 2026 calendar
+  // May 2026: 1st is Friday (day index 4, Mon=0)
+  function buildCalendar() {
+    const cells = document.getElementById('calCells');
+    const firstDay = 4; // Friday (Mon=0)
+    const totalDays = 31;
+    const highlighted = 31;
+
+    // Empty cells before day 1
+    for (let i = 0; i < firstDay; i++) {
+      const el = document.createElement('div');
+      el.className = 'cal-cell empty';
+      cells.appendChild(el);
+    }
+
+    for (let d = 1; d <= totalDays; d++) {
+      const el = document.createElement('div');
+      const dayOfWeek = (firstDay + d - 1) % 7; // Mon=0
+      const isWeekend = dayOfWeek === 5 || dayOfWeek === 6;
+
+      if (d === highlighted) {
+        el.className = 'cal-cell highlighted';
+        el.style.position = 'relative';
+        el.innerHTML = `
+          <div class="bg-dot"></div>
+          <svg class="circle-svg" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path 
+    d="M24 4 C35 4, 44 12, 44 24 C44 36, 35 44, 24 44 C13 44, 4 36, 4 24 C4 12, 13 4, 24 4"
+    stroke="#c9a87c" 
+    stroke-width="1.8" 
+    fill="none"
+    stroke-linecap="round"
+    id="circleAnim"
+    pathLength="100"           <!-- ← добавили это -->
+    stroke-dasharray="100"     <!-- полная длина -->
+    stroke-dashoffset="100"    <!-- начинаем с полностью скрытого -->
+  />
+</svg>
+          <span class="day-num">${d}</span>
+          <span class="heart-label">♥ наш день</span>
+        `;
+      } else {
+        el.className = 'cal-cell' + (isWeekend ? ' weekend' : '');
+        el.innerHTML = `<span class="day-num" style="font-size:13px;color:inherit;">${d}</span>`;
+      }
+      cells.appendChild(el);
+    }
+  }
+
+  function animateCircle() {
+    const path = document.getElementById('circleAnim');
+    if (!path) return;
+    let offset = 120;
+    const step = 2;
+    const interval = setInterval(() => {
+      offset -= step;
+      path.setAttribute('stroke-dashoffset', offset);
+      if (offset <= 0) clearInterval(interval);
+    }, 16);
+  }
+
+  function unlock() {
+    const lock = document.getElementById('lockScreen');
+    const main = document.getElementById('mainContent');
+    lock.classList.add('hidden');
+    setTimeout(() => {
+      lock.style.display = 'none';
+      main.style.display = 'block';
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        main.classList.add('visible');
+        const all = [...document.querySelectorAll('.section'), document.querySelector('.gallery-section')];
+        all.forEach((s, i) => {
+          if (s) setTimeout(() => {
+            s.classList.add('revealed');
+            if (s.id === 's2') setTimeout(animateCircle, 400);
+          }, 200 + i * 150);
+        });
+      }));
+    }, 800);
+  }
+
+  buildCalendar();
+</script>
+<!-- Фоновая музыка -->
+<audio id="weddingMusic" loop>
+  <source src="images/melody.mp3" type="audio/mpeg">
+  Ваш браузер не поддерживает воспроизведение музыки.
+</audio>
+
+<script>
+// Запуск музыки сразу после открытия основного экрана (после unlock)
+function startMusicAfterUnlock() {
+    const audio = document.getElementById('weddingMusic');
+    if (!audio) return;
+
+    // Снимаем mute и запускаем
+    audio.muted = false;
+    audio.play().catch(err => {
+        console.log("Музыка не запустилась автоматически:", err);
+        // Если браузер всё равно блокирует — можно добавить кнопку позже
+    });
+}
+
+// Привязываем запуск музыки к функции unlock()
+const originalUnlock = unlock; // сохраняем оригинальную функцию
+
+unlock = function() {
+    originalUnlock(); // вызываем старую функцию unlock (твой текущий код)
+
+    // Запускаем музыку с небольшой задержкой после анимации открытия
+    setTimeout(() => {
+        startMusicAfterUnlock();
+    }, 1200); // 1.2 секунды после открытия — можно изменить
+};
+</script>
+</body>
+</html>
